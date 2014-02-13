@@ -45,6 +45,7 @@
 								</option>
 								<option id="de.innot.avreclipse.cppcompiler.option.optimize.shortenums.458603405" name="Short enums (-fshort-enums)" superClass="de.innot.avreclipse.cppcompiler.option.optimize.shortenums" value="false" valueType="boolean"/>
 								<option id="de.innot.avreclipse.cppcompiler.option.optimize.packstruct.739481475" name="Pack structs (-fpack-struct)" superClass="de.innot.avreclipse.cppcompiler.option.optimize.packstruct" value="false" valueType="boolean"/>
+								<option id="de.innot.avreclipse.cppcompiler.option.otherflags.1633447018" superClass="de.innot.avreclipse.cppcompiler.option.otherflags" value="-DARDUINO=105" valueType="string"/>
 								<inputType id="de.innot.avreclipse.cppcompiler.input.188110706" superClass="de.innot.avreclipse.cppcompiler.input"/>
 							</tool>
 							<tool id="de.innot.avreclipse.tool.linker.winavr.base.1650521032" name="AVR C Linker" superClass="de.innot.avreclipse.tool.linker.winavr.base"/>

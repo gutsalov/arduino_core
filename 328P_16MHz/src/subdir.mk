@@ -4,6 +4,7 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 CPP_SRCS += \
+../src/AFMotor.cpp \
 ../src/CDC.cpp \
 ../src/HID.cpp \
 ../src/HardwareSerial.cpp \
@@ -26,6 +27,7 @@ C_SRCS += \
 ../src/wiring_shift.c 
 
 OBJS += \
+./src/AFMotor.o \
 ./src/CDC.o \
 ./src/HID.o \
 ./src/HardwareSerial.o \
@@ -54,6 +56,7 @@ C_DEPS += \
 ./src/wiring_shift.d 
 
 CPP_DEPS += \
+./src/AFMotor.d \
 ./src/CDC.d \
 ./src/HID.d \
 ./src/HardwareSerial.d \
@@ -72,7 +75,7 @@ CPP_DEPS += \
 src/%.o: ../src/%.cpp
 	@echo 'Building file: $<'
 	@echo 'Invoking: AVR C++ Compiler'
-	avr-g++ -I"/home/gutsan/workspace/arduino_core/src" -Wall -g2 -gstabs -Os -ffunction-sections -fdata-sections -fno-exceptions -mmcu=atmega328p -DF_CPU=16000000UL -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -c -o "$@" "$<"
+	avr-g++ -I"/home/gutsan/workspace/arduino_core/src" -Wall -g2 -gstabs -Os -ffunction-sections -fdata-sections -fno-exceptions -DARDUINO=105 -mmcu=atmega328p -DF_CPU=16000000UL -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -c -o "$@" "$<"
 	@echo 'Finished building: $<'
 	@echo ' '
 
