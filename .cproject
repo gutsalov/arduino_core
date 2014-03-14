@@ -32,8 +32,9 @@
 								<option id="de.innot.avreclipse.compiler.option.language.ubitfields.1997608229" name="bitfields are unsigned (-funsigned-bitfields)" superClass="de.innot.avreclipse.compiler.option.language.ubitfields" value="false" valueType="boolean"/>
 								<option id="de.innot.avreclipse.compiler.option.incpath.856212703" name="Include Paths (-I)" superClass="de.innot.avreclipse.compiler.option.incpath" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src}&quot;"/>
+									<listOptionValue builtIn="false" value="/usr/avr/include"/>
 								</option>
-								<option id="de.innot.avreclipse.compiler.option.otherflags.696781985" superClass="de.innot.avreclipse.compiler.option.otherflags" value="-DARDUINO=105" valueType="string"/>
+								<option id="de.innot.avreclipse.compiler.option.otherflags.696781985" name="Other flags" superClass="de.innot.avreclipse.compiler.option.otherflags" value="-DARDUINO=105" valueType="string"/>
 								<inputType id="de.innot.avreclipse.compiler.winavr.input.1060629761" name="C Source Files" superClass="de.innot.avreclipse.compiler.winavr.input"/>
 							</tool>
 							<tool id="de.innot.avreclipse.tool.cppcompiler.lib.debug.1543937017" name="AVR C++ Compiler" superClass="de.innot.avreclipse.tool.cppcompiler.lib.debug">
@@ -43,6 +44,8 @@
 								<option id="de.innot.avreclipse.cppcompiler.option.language.ubitfields.1475717665" name="bitfields are unsigned (-funsigned-bitfields)" superClass="de.innot.avreclipse.cppcompiler.option.language.ubitfields" value="false" valueType="boolean"/>
 								<option id="de.innot.avreclipse.cppcompiler.option.incpath.1073108140" name="Include Paths (-I)" superClass="de.innot.avreclipse.cppcompiler.option.incpath" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src}&quot;"/>
+									<listOptionValue builtIn="false" value="/usr/lib/gcc/avr/4.8.2/include"/>
+									<listOptionValue builtIn="false" value="/usr/avr/include"/>
 								</option>
 								<option id="de.innot.avreclipse.cppcompiler.option.optimize.shortenums.458603405" name="Short enums (-fshort-enums)" superClass="de.innot.avreclipse.cppcompiler.option.optimize.shortenums" value="false" valueType="boolean"/>
 								<option id="de.innot.avreclipse.cppcompiler.option.optimize.packstruct.739481475" name="Pack structs (-fpack-struct)" superClass="de.innot.avreclipse.cppcompiler.option.optimize.packstruct" value="false" valueType="boolean"/>
