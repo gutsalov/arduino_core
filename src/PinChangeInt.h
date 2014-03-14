@@ -164,13 +164,16 @@ Version 2.11 (beta) Mon Nov 12 09:33:06 CST 2012
 #define PCgetArduinoPin() PCintPort::getArduinoPin()
 
 
-typedef void (*PCIntvoidFuncPtr)(void);
+class PinChangeHandler {
+	public:
+		virtual void pinChanged() = 0;
+};
 
 class PCintPort {
 public:
 	PCintPort(int index,int pcindex, volatile uint8_t& maskReg);
 	volatile	uint8_t&		portInputReg;
-	static		int8_t attachInterrupt(uint8_t pin, PCIntvoidFuncPtr userFunc, int mode);
+	static		int8_t attachInterrupt(uint8_t pin, PinChangeHandler* handler, int mode);
 	static		void detachInterrupt(uint8_t pin);
 	INLINE_PCINT void PCint();
 	static volatile uint8_t curr;
@@ -203,17 +206,15 @@ public:
 protected:
 	class PCintPin {
 	public:
-		PCintPin() :
-		PCintFunc((PCIntvoidFuncPtr)NULL),
-		mode(0) {}
-		PCIntvoidFuncPtr PCintFunc;
+		PCintPin();
+		PinChangeHandler* handler;
 		uint8_t 	mode;
 		uint8_t		mask;
 		uint8_t arduinoPin;
 		PCintPin* next;
 	};
-	void 		enable(PCintPin* pin, PCIntvoidFuncPtr userFunc, uint8_t mode);
-	int8_t		addPin(uint8_t arduinoPin,PCIntvoidFuncPtr userFunc, uint8_t mode);
+	void 		enable(PCintPin* pin, PinChangeHandler* handler, uint8_t mode);
+	int8_t		addPin(uint8_t arduinoPin,PinChangeHandler* handler, uint8_t mode);
 	volatile	uint8_t&		portPCMask;
 	const		uint8_t			PCICRbit;
 	volatile	uint8_t			portRisingPins;

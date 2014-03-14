@@ -222,18 +222,18 @@ PCintPort::PCintPort(int index,int pcindex, volatile uint8_t& maskReg) :
 		#endif
 	}
 
-void PCintPort::enable(PCintPin* p, PCIntvoidFuncPtr userFunc, uint8_t mode) {
+void PCintPort::enable(PCintPin* p, PinChangeHandler* userHandler, uint8_t mode) {
 	// Enable the pin for interrupts by adding to the PCMSKx register.
 	// ...The final steps; at this point the interrupt is enabled on this pin.
 	p->mode=mode;
-	p->PCintFunc=userFunc;
+	p->handler=userHandler;
 	portPCMask |= p->mask;
 	if ((p->mode == RISING) || (p->mode == CHANGE)) portRisingPins |= p->mask;
 	if ((p->mode == FALLING) || (p->mode == CHANGE)) portFallingPins |= p->mask;
 	PCICR |= PCICRbit;
 }
 
-int8_t PCintPort::addPin(uint8_t arduinoPin, PCIntvoidFuncPtr userFunc, uint8_t mode)
+int8_t PCintPort::addPin(uint8_t arduinoPin, PinChangeHandler* userHandler, uint8_t mode)
 {
 	PCintPin* tmp;
 
@@ -241,7 +241,7 @@ int8_t PCintPort::addPin(uint8_t arduinoPin, PCIntvoidFuncPtr userFunc, uint8_t 
 	if (firstPin != NULL) {
 		tmp=firstPin;
 		do {
-			if (tmp->arduinoPin == arduinoPin) { enable(tmp, userFunc, mode); return(0); }
+			if (tmp->arduinoPin == arduinoPin) { enable(tmp, userHandler, mode); return(0); }
 			if (tmp->next == NULL) break;
 			tmp=tmp->next;
 		} while (true);
@@ -265,7 +265,7 @@ int8_t PCintPort::addPin(uint8_t arduinoPin, PCIntvoidFuncPtr userFunc, uint8_t 
 	Serial.print("userFunc addr: "); Serial.println((int)p->PCintFunc, HEX);
 #endif
 
-	enable(p, userFunc, mode);
+	enable(p, userHandler, mode);
 #ifdef DEBUG
 	Serial.print("addPin. pin given: "); Serial.print(arduinoPin, DEC), Serial.print (" pin stored: ");
 	int addr = (int) p;
@@ -277,11 +277,11 @@ int8_t PCintPort::addPin(uint8_t arduinoPin, PCIntvoidFuncPtr userFunc, uint8_t 
 /*
  * attach an interrupt to a specific pin using pin change interrupts.
  */
-int8_t PCintPort::attachInterrupt(uint8_t arduinoPin, PCIntvoidFuncPtr userFunc, int mode)
+int8_t PCintPort::attachInterrupt(uint8_t arduinoPin, PinChangeHandler* userHandler, int mode)
 {
 	PCintPort *port;
 	uint8_t portNum = digitalPinToPort(arduinoPin);
-	if ((portNum == NOT_A_PORT) || (userFunc == NULL)) return(-1);
+	if ((portNum == NOT_A_PORT) || (userHandler == NULL)) return(-1);
 
 	port=lookupPortNumToPort(portNum);
 	// Added by GreyGnome... must set the initial value of lastPinView for it to be correct on the 1st interrupt.
@@ -292,7 +292,7 @@ int8_t PCintPort::attachInterrupt(uint8_t arduinoPin, PCIntvoidFuncPtr userFunc,
 	Serial.print("attachInterrupt FUNC: "); Serial.println(arduinoPin, DEC);
 #endif
 	// map pin to PCIR register
-	return(port->addPin(arduinoPin,userFunc,mode));
+	return(port->addPin(arduinoPin,userHandler,mode));
 }
 
 void PCintPort::detachInterrupt(uint8_t arduinoPin)
@@ -384,7 +384,7 @@ void PCintPort::PCint() {
 				PCintPort::s_pmask=p->mask;
 				PCintPort::s_changedPins=changedPins;
 				#endif
-				p->PCintFunc();
+				p->handler->pinChanged();
 			}
 			p=p->next;
 		}
@@ -399,4 +399,7 @@ void PCintPort::PCint() {
 		PCintPort::curr=portInputReg;
 	}
 	#endif
+}
+
+PCintPort::PCintPin::PCintPin() : handler((PinChangeHandler*)NULL), mode(0) {
 }
